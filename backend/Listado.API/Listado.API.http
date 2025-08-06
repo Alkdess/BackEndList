@@ -1,0 +1,6 @@
+@Listado.API_HostAddress = http://localhost:5181
+
+GET {{Listado.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
