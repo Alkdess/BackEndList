@@ -29,10 +29,29 @@ namespace Listado.API.Controllers{
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<string>>> GetNombres(){
-      return await _context.Personas
-        .Select(x => x.FullName)
+    public async Task<ActionResult<IEnumerable<Personas>>> GetNombres(){
+      var data = await _context.Personas
+        .Select(p => new Personas{
+          Id = p.Id,
+          FullName = p.FullName,
+          Address = p.Address,
+          Update_Date = p.Update_Date
+        })
         .ToListAsync();
+      return Ok(data);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> PostRegistro(Personas persona){
+      var entidad = new Personas{
+        FullName = persona.FullName,
+        Address = persona.Address,
+        Update_Date = DateTime.Now
+      };
+
+      _context.Personas.Add(entidad);
+      await _context.SaveChangesAsync();
+      return Ok();
     }
   }
 }
